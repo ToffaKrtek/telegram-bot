@@ -5,6 +5,8 @@ class BotService {
   }
 
   queryProcessing(query){
+    const data = JSON.parse(query);
+
     return null
   }
 }
