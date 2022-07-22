@@ -7,9 +7,12 @@
 при обращении на внутренний сервер данные (json) должны быть внутри общего ключа **data**        
 Обрабатываются сообщения типа: <br>
 { <br>
-  data: <br>
-  {
-    author: <author name>, <br>
-    message: <text message> <br>
-  } <br>
+> data: <br>
+> { <br>
+>>
+>> author: author_name, <br>
+>> message: text_message <br>
+>>
+>
+> } <br>
 } <br>
