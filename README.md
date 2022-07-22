@@ -8,8 +8,8 @@
 Обрабатываются сообщения типа: <br>
 { <br>
   > data: <br>
-  > {
-    >> author: <author name>, <br>
-    >> message: <text message> <br>
+  > { <br>
+    >> author: author_name, <br>
+    >> message: text_message <br>
   > } <br>
 } <br>
