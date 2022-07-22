@@ -3,9 +3,10 @@ import * as fs from 'fs';
 
 class Bot {
   // мб, токен не сохранять..т.к. не пригодится и всегда доступен из файла конфигурации
-    constructor(token){
+    constructor(token, main_chat_id){
     //  this.token = token;
       this.bot = new TelegramBot(token, {polling: true})
+      this.main_chat_id = main_chat_id
     }
 
     // Все прослушки в одном методе
@@ -211,26 +212,28 @@ class Bot {
     }
 
     NewMessage(author, message){
-      const chats = this.getChatsFromLocalStorage()
-      console.log(chats, typeof(chats))
-      for (let i in chats){
-        console.log(chats[i])
-        const text = 'Новое сообщение с сайта\n' +  '\nОт:\n' + author + '\nСообщение\n' + message;
-        const options = {
-          reply_markup: {
-            inline_keyboard: [
-              [
-                {
-                  text: 'Главное меню',
-                  callback_data: 'cancel:active'
-                }
-              ]
-
+      const text = 'Новое сообщение с сайта\n' +  '\nОт:\n' + author + '\nСообщение\n' + message;
+      const options = {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: 'Главное меню',
+                callback_data: 'cancel:active'
+              }
             ]
-          }
+
+          ]
         }
-        this.sendText(chats[i], text, options)
       }
+      if(this.main_chat_id == null){
+        const chats = this.getChatsFromLocalStorage();
+        for (let i in chats){
+          this.sendText(chats[i], text, options);
+        }
+    }else {
+      this.sendText(this.main_chat_id, text, options);
+    }
     }
 }
 
