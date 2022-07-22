@@ -4,8 +4,9 @@ import BotService from './botservice.js'
 
 
 class Server {
-  constructor(port, bot){
+  constructor(port, token, bot){
     //this.bot = bot;
+    this.token = token
     this.app = express();
     this.app.use( bodyParser.json() );
     this.app.use( bodyParser.urlencoded({
@@ -18,7 +19,7 @@ class Server {
 
   listeners(){
     this.app.post('/', (req, res) => {
-    
+
       if(req.body.data){
         const data = JSON.parse(req.body.data)
         this.botservice.queryProcessing(data).then( status => {

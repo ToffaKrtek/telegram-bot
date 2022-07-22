@@ -1,10 +1,9 @@
 import Bot from './bot.js'
-import token from './config.js'
+import config from './config.js'
 import Server from './server.js'
-const port = 3000;
+const chat_id = config.telegram.chat_id ? config.telegram.chat_id : null
 
-
-const bot = new Bot(token);
+const bot = new Bot(config.telegram.token, chat_id);
 bot.listeners()
 
-const server = new Server(port, bot)
+const server = new Server(config.server.port, config.server.token, bot)
