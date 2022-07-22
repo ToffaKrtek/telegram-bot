@@ -63,9 +63,12 @@ class Bot {
       let text = '';
       let options = {};
       switch (query) {
-          case 'contacts':
-            this.contacts(chat_id)
-            break;
+        case 'contacts':
+          this.contacts(chat_id)
+          break;
+        case 'commands_list':
+          this.commands_list(chat_id);
+          break;
         case 'games_list':
           text = '1) 1\n2) 2';
           options = {
@@ -154,6 +157,10 @@ class Bot {
               {
                 text: 'Список лоступных команд',
                 callback_data: 'commands_list'
+              },
+              {
+                text: 'Главное меню',
+                callback_data: 'cancel:active'
               }
             ]
 
@@ -171,7 +178,25 @@ class Bot {
           inline_keyboard: [
             [
               {
-                text: 'Предыдущее меню',
+                text: 'Главное меню',
+                callback_data: 'cancel:active'
+              }
+            ]
+          ]
+        }
+      }
+      this.sendText(chat_id, text, options)
+    }
+
+    commands_list(chat_id){
+      const text = 'Список доступных команд:\n<b>active</b> -- главное меню\n<b>contacts</b> -- контакты\n<b>addToLocalStorage</b> -- добавить свой чат в общую рассылку'
+      const options = {
+        parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: 'Главное меню',
                 callback_data: 'cancel:active'
               }
             ]
