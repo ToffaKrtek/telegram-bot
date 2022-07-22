@@ -5,11 +5,11 @@
 ----
 
 при обращении на внутренний сервер данные (json) должны быть внутри общего ключа **data**        
-Обрабатываются сообщения типа:
-{
-  data: \n
+Обрабатываются сообщения типа: <br>
+{ <br>
+  data: <br>
   {
-    author: <author name>,\n
-    message: <text message>\n
-  }\n
-}\n
+    author: <author name>, <br>
+    message: <text message> <br>
+  } <br>
+} <br>
