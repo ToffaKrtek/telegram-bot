@@ -18,16 +18,17 @@ class Server {
 
   listeners(){
     this.app.post('/', (req, res) => {
-
+    
       if(req.body.data){
-        this.botservice.queryProcessing(req.body.data).then(
+        const data = JSON.parse(req.body.data)
+        this.botservice.queryProcessing(data).then( status => {
           res.status(200).send('True');
-        ).catch( msg => {
-          console.log(msg);
+        }).catch( msg => {
           res.status(400).send('False');
         })
 
       }else {
+        console.log(req)
         res.status(400).send('False');
       }
 

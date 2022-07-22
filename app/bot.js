@@ -1,4 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
+import * as fs from 'fs';
 
 class Bot {
   // мб, токен не сохранять..т.к. не пригодится и всегда доступен из файла конфигурации
@@ -20,6 +21,9 @@ class Bot {
             break;
           case 'contacts':
             this.contacts(chat_id);
+            break;
+          case 'addtolocalstorage':
+            this.addToLocalStorage(chat_id);
             break;
           default:
             this.wrongComand(chat_id);
@@ -174,6 +178,59 @@ class Bot {
         }
       }
       this.sendText(chat_id, text, options)
+    }
+
+    addToLocalStorage(chat_id){
+      const data = fs.readFile('localstorage.json', (err, data) => {
+        if(err) throw err;
+        let localdata = JSON.parse(data);
+        localdata.chat_id.push(chat_id)
+        fs.writeFileSync('localstorage.json', JSON.stringify(localdata));
+        const text = 'Чат добавлен в локальное хранилище';
+        const options = {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: 'Вернуться',
+                  callback_data: 'cancel:active'
+                }
+              ]
+
+            ]
+          }
+        }
+        this.sendText(chat_id, text, options)
+      })
+    }
+
+    getChatsFromLocalStorage(){
+      const data = JSON.parse(fs.readFileSync('localstorage.json'))
+
+      return data.chat_id
+    }
+
+    NewMessage(author, message){
+      const chats = this.getChatsFromLocalStorage()
+      console.log(chats, typeof(chats))
+      for (let i in chats){
+        console.log(chats[i])
+        const text = 'Новое сообщение с сайта\n' +  '\nОт:\n' + author + '\nСообщение\n' + message;
+        const options = {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: 'Главное меню',
+                  callback_data: 'cancel:active'
+                }
+              ]
+
+            ]
+          }
+        }
+        this.sendText(chats[i], text, options)
+      }
     }
 }
 
